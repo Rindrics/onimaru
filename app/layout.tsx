@@ -19,7 +19,7 @@ export default function RootLayout({
         </main>
         <footer className="mt-auto py-4 px-8 text-sm text-gray-600 border-t">
           <p>
-            データ出展:{' '}
+            データ出典:{' '}
             <a
               href="https://opensci.aori.u-tokyo.ac.jp/otsuchi.html"
               target="_blank"
