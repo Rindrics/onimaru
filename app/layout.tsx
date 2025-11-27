@@ -13,7 +13,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body className="flex flex-col min-h-screen">
+        <main className="flex-grow">
+          {children}
+        </main>
+        <footer className="mt-auto py-4 px-8 text-sm text-gray-600 border-t">
+          <p>
+            データ出展:{' '}
+            <a
+              href="https://opensci.aori.u-tokyo.ac.jp/otsuchi.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              大槌湾観測データベース
+            </a>
+            {' '}(<a href="https://opensci.aori.u-tokyo.ac.jp/index.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">東京大学大気海洋研究所 オープンサイエンス推進室</a>)
+          </p>
+        </footer>
+      </body>
     </html>
   )
 }
