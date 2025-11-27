@@ -92,6 +92,11 @@ async function main() {
     const lastPage = await getLastPageNumber(listHtml);
     console.log(`総ページ数: ${lastPage}`);
     
+    // 統計情報
+    let totalLinks = 0;
+    let downloadedCount = 0;
+    let skippedCount = 0;
+    
     // 各ページを処理
     for (let page = 1; page <= lastPage; page++) {
       console.log(`\nページ ${page}/${lastPage} を処理中...`);
@@ -101,20 +106,37 @@ async function main() {
       const pageHtml = pageResponse.data;
       
       const csvLinks = extractCsvLinks(pageHtml);
+      totalLinks += csvLinks.length;
       console.log(`  ${csvLinks.length} 件のCSVリンクを発見`);
       
       // 各リンクをダウンロード
       for (const link of csvLinks) {
         const downloaded = await downloadCsv(link);
         
-        // ダウンロードした場合のみ、サーバー負荷を避けるため待機
         if (downloaded) {
+          downloadedCount++;
+          // ダウンロードした場合のみ、サーバー負荷を避けるため待機
           await sleep(SLEEP_INTERVAL);
+        } else {
+          skippedCount++;
         }
       }
     }
     
     console.log(`\nダウンロード完了: ${DOWNLOAD_DIR}`);
+    console.log(`統計:`);
+    console.log(`  総リンク数: ${totalLinks} 件`);
+    console.log(`  ダウンロード: ${downloadedCount} 件`);
+    console.log(`  スキップ: ${skippedCount} 件`);
+    
+    // 差分がある場合のみ終了コード1を返す（GitHub Actionsで検知可能）
+    if (downloadedCount > 0) {
+      console.log(`\n新しいデータが ${downloadedCount} 件ダウンロードされました。`);
+      process.exit(0);
+    } else {
+      console.log(`\n新しいデータはありませんでした。`);
+      process.exit(0);
+    }
   } catch (error) {
     console.error('エラーが発生しました:', error);
     process.exit(1);
