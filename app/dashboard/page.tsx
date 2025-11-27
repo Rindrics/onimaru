@@ -6,19 +6,37 @@ interface Stats {
   recordCount: number;
 }
 
+// キャッシュ用のグローバル変数（ページが再マウントされても保持）
+let cachedStats: Stats | null = null;
+let cacheTimestamp: number = 0;
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 1日間
+
 export default function DashboardPage() {
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<Stats | null>(cachedStats);
+  const [loading, setLoading] = useState(!cachedStats);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // キャッシュが有効な場合は使用
+    const now = Date.now();
+    if (cachedStats && (now - cacheTimestamp) < CACHE_DURATION) {
+      setStats(cachedStats);
+      setLoading(false);
+      return;
+    }
+
     async function fetchStats() {
       try {
-        const response = await fetch('/api/stats');
+        const response = await fetch('/api/stats', {
+          cache: 'force-cache', // ブラウザキャッシュも活用
+        });
         if (!response.ok) {
           throw new Error('データの取得に失敗しました');
         }
         const data = await response.json();
+        // キャッシュを更新
+        cachedStats = data;
+        cacheTimestamp = Date.now();
         setStats(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'エラーが発生しました');
