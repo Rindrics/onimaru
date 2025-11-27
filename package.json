@@ -1,0 +1,29 @@
+{
+  "name": "onimaru",
+  "version": "1.0.0",
+  "description": "東京大学大気海洋研究所が提供するオープンデータ \"[大槌湾観測データベース](https://opensci.aori.u-tokyo.ac.jp/otsuchi.html)\" を再配布する",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^16.0.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3"
+  }
+}
