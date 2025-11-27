@@ -10,7 +10,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "download-data": "tsx scripts/download-data.ts",
+    "convert-to-parquet": "tsx scripts/convert-csv-to-parquet.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,9 +23,18 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@types/cheerio": "^1.0.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.22",
+    "axios": "^1.13.2",
+    "cheerio": "^1.1.2",
+    "csv-parse": "^6.1.0",
+    "parquetjs": "^0.11.2",
+    "tailwindcss": "^4.1.17",
+    "@tailwindcss/postcss": "^4.1.17",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
 }
