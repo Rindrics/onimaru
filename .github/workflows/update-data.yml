@@ -18,9 +18,14 @@ jobs:
       - name: Checkout update-data branch
         uses: actions/checkout@v6
         with:
-          ref: update-data
           token: ${{ secrets.GITHUB_TOKEN }}
-      
+
+      - name: Create 'update-data' branch
+        run: |
+          git switch -c update-data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
