@@ -62,7 +62,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git add data/csv public/data/ctd_data.parquet
           git commit -m "chore: update data files"
-          git push
+          git push --set-upstream origin update-data
       
       - name: Create Pull Request
         if: steps.check-changes.outputs.has_changes == 'true'
