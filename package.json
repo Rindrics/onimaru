@@ -23,6 +23,7 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
     "@types/cheerio": "^1.0.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
@@ -31,9 +32,9 @@
     "axios": "^1.13.2",
     "cheerio": "^1.1.2",
     "csv-parse": "^6.1.0",
+    "esbuild": "^0.27.0",
     "parquetjs": "^0.11.2",
     "tailwindcss": "^4.1.17",
-    "@tailwindcss/postcss": "^4.1.17",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
