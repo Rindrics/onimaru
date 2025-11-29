@@ -43,10 +43,24 @@ jobs:
       - name: Download data
         run: pnpm run download-data
       
+      - name: Check for changes after download
+        id: check-download-changes
+        run: |
+          git add -N .
+          if [ -z "$(git diff --name-only)" ]; then
+            echo "No changes detected after download. Exiting successfully."
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected after download."
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+      
       - name: Convert to Parquet
+        if: steps.check-download-changes.outputs.has_changes == 'true'
         run: pnpm run convert-to-parquet
       
       - name: Check for changes
+        if: steps.check-download-changes.outputs.has_changes == 'true'
         id: check-changes
         run: |
           if [ -n "$(git status --porcelain)" ]; then
@@ -56,7 +70,7 @@ jobs:
           fi
       
       - name: Commit and push changes
-        if: steps.check-changes.outputs.has_changes == 'true'
+        if: steps.check-download-changes.outputs.has_changes == 'true' && steps.check-changes.outputs.has_changes == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -65,7 +79,7 @@ jobs:
           git push --set-upstream origin update-data
       
       - name: Create Pull Request
-        if: steps.check-changes.outputs.has_changes == 'true'
+        if: steps.check-download-changes.outputs.has_changes == 'true' && steps.check-changes.outputs.has_changes == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -79,4 +93,3 @@ jobs:
             - Parquet file in `public/data/ctd_data.parquet`
           reviewers: Rindrics
           draft: false
-
