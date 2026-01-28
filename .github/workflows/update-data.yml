@@ -84,7 +84,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: update-data
-          base: dev
+          base: main
           title: 'chore: update data files'
           body: |
             Data files have been updated.
